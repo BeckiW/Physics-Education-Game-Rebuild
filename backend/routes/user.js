@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
-let User = require("../models/user_model");
-const UserController = require("../controllers/UserController");
 const userSchema = require("../schemas/user");
 const userController = require("../controllers/users");
+const { checkSchema } = require("express-validator");
 
-router.post("/addUser", userSchema.userValidation, userController.addUser);
-
-router.route("/").get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+router.post(
+  "/add",
+  checkSchema(userSchema.newUserValidation),
+  userController.addUser
+);
+router.get(
+  "/user",
+  checkSchema(userSchema.userValidation),
+  userController.user
+);
 
 module.exports = router;

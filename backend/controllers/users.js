@@ -1,8 +1,15 @@
-const User = require("../models/User");
-const { validationResult, check } = require("express-validator");
-const checkError = require("../helper/checkError");
+const User = require("../models/user_model");
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt-nodejs");
 
 exports.addUser = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    console.log(result);
+    res.status(400).json({ errors: result.errors });
+    return;
+  }
+
   try {
     const { username, email, password } = req.body;
 
@@ -11,7 +18,9 @@ exports.addUser = async (req, res) => {
       username: username,
       email: email
     });
-    checkError(res, existUser, "User already exists");
+    if (existUser) {
+      res.status(400).json({ created: false, error: "user already exists" });
+    }
 
     //save user
     const user = new User({
@@ -23,26 +32,24 @@ exports.addUser = async (req, res) => {
     const addedUser = await user.save({ created: true });
     res.status(201).json(addedUser);
   } catch (err) {
+    console.log(err);
+
     res.status(400).json({ created: false, error: err });
   }
 };
 
-//FINISH ME!
-// exports.getAllUsers = async (req, res) => {
-//   try {
-//     const users = await User.find({}).where("status", /[^deleted]/);
-//     res.status(200).json(users);
-//   } catch (err) {
-//     checkError(res, err, err.message, 500);
-//   }
-// };
+exports.user = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    console.log(result);
+    res.status(400).json({ errors: result.errors });
+    return;
+  }
 
-// exports.deleteUser = async (req, res) => {
-//   try {
-//     await User.deleteOne({ _id: req.params.id });
-
-//     res.status(200).send("Data is deleted");
-//   } catch (err) {
-//     checkError(res, err, err.message, 500);
-//   }
-// };
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(400).json("Error: " + err);
+  }
+};
