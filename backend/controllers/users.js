@@ -98,10 +98,10 @@ exports.delete = async (req, res) => {
   console.log(userId);
 
   try {
-    const user = await User.removeUser({
+    const user = await User.remove({
       _id: userId
     });
-    res.status(200).json(`User ${user} deleted`);
+    res.status(200).json(`User ${userId} deleted`);
   } catch (err) {
     res.status(400).json(`Error: Can't find user with ID ${userId}`);
   }
