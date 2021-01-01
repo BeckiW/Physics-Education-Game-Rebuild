@@ -10,9 +10,13 @@ router.post(
   userController.addUser
 );
 router.get(
-  "/user",
+  "/all",
   checkSchema(userSchema.userValidation),
-  userController.user
+  userController.users
 );
+router.get("/user/:userId", userController.user);
+
+//fix me
+router.delete("/user/:userId", userController.delete);
 
 module.exports = router;

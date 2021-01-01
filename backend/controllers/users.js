@@ -38,6 +38,24 @@ exports.addUser = async (req, res) => {
   }
 };
 
+exports.users = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    console.log(result);
+    res.status(400).json({ errors: result.errors });
+    return;
+  }
+
+  let size = parseInt(req.query.size) || 10;
+
+  try {
+    const users = await User.find().limit(size);
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(400).json("Error: " + err);
+  }
+};
+
 exports.user = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -46,10 +64,45 @@ exports.user = async (req, res) => {
     return;
   }
 
+  if (!req.params && !req.params.userId) {
+    res.status(400).json({ errors: "no userId provided" });
+  }
+
+  console.log(req.params);
+  let userId = req.params.userId;
+
   try {
-    const users = await User.find();
+    const users = await User.find({
+      _id: userId
+    });
     res.status(200).json(users);
   } catch (err) {
-    res.status(400).json("Error: " + err);
+    res.status(400).json(`Error: Can't find user with ID ${userId}`);
+  }
+};
+
+exports.delete = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    console.log(result);
+    res.status(400).json({ errors: result.errors });
+    return;
+  }
+
+  if (!req.params && !req.params.userId) {
+    res.status(400).json({ errors: "no userId provided" });
+  }
+
+  let userId = req.params.userId;
+
+  console.log(userId);
+
+  try {
+    const user = await User.removeUser({
+      _id: userId
+    });
+    res.status(200).json(`User ${user} deleted`);
+  } catch (err) {
+    res.status(400).json(`Error: Can't find user with ID ${userId}`);
   }
 };
