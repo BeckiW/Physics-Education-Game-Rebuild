@@ -11,6 +11,10 @@ const topicSchema = new Schema(
     level: {
       type: Number,
       required: true
+    },
+    description: {
+      type: String,
+      required: false
     }
   },
   {

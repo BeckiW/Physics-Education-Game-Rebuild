@@ -1,8 +1,7 @@
-const User = require("../models/user_model");
+const Topic = require("../models/topic_model");
 const { validationResult } = require("express-validator");
-const bcrypt = require("bcrypt-nodejs");
 
-exports.addUser = async (req, res) => {
+exports.addTopic = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
     console.log(result);
@@ -11,26 +10,25 @@ exports.addUser = async (req, res) => {
   }
 
   try {
-    const { username, email, password } = req.body;
-
+    const { topic, level, description } = req.body;
     //user exist check
-    const existUser = await User.findOne({
-      username: username,
-      email: email
+    const existTopic = await User.findOne({
+      topic: topic,
+      level: level
     });
-    if (existUser) {
-      res.status(400).json({ created: false, error: "user already exists" });
+    if (existTopic) {
+      res.status(400).json({ created: false, error: "topic already exists" });
     }
 
     //save user
-    const user = new User({
-      username: username,
-      email: email,
-      password: bcrypt.hashSync(password)
+    const newTopic = new Topic({
+      topic: topic,
+      level: level,
+      description: description
     });
 
-    const addedUser = await user.save({ created: true });
-    res.status(201).json(addedUser);
+    const addedTopic = await newTopic.save({ created: true });
+    res.status(201).json(addedTopic);
   } catch (err) {
     console.log(err);
 
@@ -38,7 +36,7 @@ exports.addUser = async (req, res) => {
   }
 };
 
-exports.users = async (req, res) => {
+exports.topics = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
     console.log(result);
@@ -49,14 +47,14 @@ exports.users = async (req, res) => {
   let size = parseInt(req.query.size) || 10;
 
   try {
-    const users = await User.find().limit(size);
-    res.status(200).json(users);
+    const topics = await Topic.find().limit(size);
+    res.status(200).json(topics);
   } catch (err) {
     res.status(400).json("Error: " + err);
   }
 };
 
-exports.user = async (req, res) => {
+exports.topic = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
     console.log(result);
@@ -64,19 +62,19 @@ exports.user = async (req, res) => {
     return;
   }
 
-  if (!req.params && !req.params.userId) {
-    res.status(400).json({ errors: "no userId provided" });
+  if (!req.params && !req.params.topicId) {
+    res.status(400).json({ errors: "no topicId provided" });
   }
 
-  let userId = req.params.userId;
+  let topicId = req.params.topicId;
 
   try {
-    const users = await User.find({
-      _id: userId
+    const topic = await Topic.find({
+      _id: topicId
     });
-    res.status(200).json(users);
+    res.status(200).json(topic);
   } catch (err) {
-    res.status(400).json(`Error: Can't find user with ID ${userId}`);
+    res.status(400).json(`Error: Can't find user with ID ${topicId}`);
   }
 };
 
@@ -88,19 +86,19 @@ exports.delete = async (req, res) => {
     return;
   }
 
-  if (!req.params && !req.params.userId) {
-    res.status(400).json({ errors: "no userId provided" });
+  if (!req.params && !req.params.topicId) {
+    res.status(400).json({ errors: "no topicId provided" });
   }
 
-  let userId = req.params.userId;
+  let topicId = req.params.topicId;
 
   try {
-    const user = await User.remove({
-      _id: userId
+    const topic = await Topic.remove({
+      _id: topicId
     });
-    res.status(200).json(user);
+    res.status(200).json(topic);
   } catch (err) {
-    res.status(400).json(`Error: Can't find user with ID ${userId}`);
+    res.status(400).json(`Error: Can't find user with ID ${topicId}`);
   }
 };
 
@@ -114,16 +112,17 @@ exports.update = async (req, res) => {
 
   try {
     //user exist check
-    const existingUser = await User.find({
-      _id: req.params.userId
+    const existingTopic = await Topic.find({
+      _id: req.params.topicId
     });
 
-    if (existingUser.length > 0) {
-      const updateUser = await User.findOneAndUpdate(
-        { _id: req.params.userId },
+    if (existingTopic.length > 0) {
+      console.log(req.body);
+      const updateTopic = await Topic.findOneAndUpdate(
+        { _id: req.params.topicId },
         req.body
       );
-      res.status(201).json(updateUser);
+      res.status(201).json(updateTopic);
     } else {
       res.status(400).json({ created: false, error: "user couldn't be found" });
     }
