@@ -74,7 +74,7 @@ exports.topic = async (req, res) => {
     });
     res.status(200).json(topic);
   } catch (err) {
-    res.status(400).json(`Error: Can't find user with ID ${topicId}`);
+    res.status(400).json(`Error: Can't find topic with ID ${topicId}`);
   }
 };
 
@@ -98,7 +98,7 @@ exports.delete = async (req, res) => {
     });
     res.status(200).json(topic);
   } catch (err) {
-    res.status(400).json(`Error: Can't find user with ID ${topicId}`);
+    res.status(400).json(`Error: Can't find topic with ID ${topicId}`);
   }
 };
 
@@ -111,7 +111,7 @@ exports.update = async (req, res) => {
   }
 
   try {
-    //user exist check
+    //topic exist check
     const existingTopic = await Topic.find({
       _id: req.params.topicId
     });
@@ -124,7 +124,9 @@ exports.update = async (req, res) => {
       );
       res.status(201).json(updateTopic);
     } else {
-      res.status(400).json({ created: false, error: "user couldn't be found" });
+      res
+        .status(400)
+        .json({ created: false, error: "topic couldn't be found" });
     }
   } catch (err) {
     console.log(err);
