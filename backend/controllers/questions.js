@@ -119,7 +119,7 @@ exports.update = async (req, res) => {
   }
 
   try {
-    //uquestion exist check
+    //question exist check
     const existingQuestion = await Question.find({
       _id: req.params.questionId
     });
