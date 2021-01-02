@@ -1,11 +1,30 @@
 const router = require("express").Router();
 let Question = require("../models/question_model");
 
-router.route("/questions").get((req, res) => {
-  Question.find().then(questions => {
-    console.log("questions: ", questions);
-    res.json(questions);
-  });
-});
+router.post(
+  "/add",
+  checkSchema(topicSchema.newQuestionValidation),
+  topicController.addQuestion
+);
+
+router.get("/all", topicController.allQuestions);
+
+router.get(
+  "/question/:questionId",
+  checkSchema(topicSchema.getQuestionValidation),
+  topicController.question
+);
+
+router.delete(
+  "/question/:questionId",
+  checkSchema(topicSchema.deleteQuestionValidation),
+  topicController.delete
+);
+
+router.put(
+  "/question/:questionId",
+  checkSchema(topicSchema.updateQuestionValidation),
+  topicController.update
+);
 
 module.exports = router;
