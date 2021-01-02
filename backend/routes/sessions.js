@@ -5,32 +5,28 @@ const { checkSchema } = require("express-validator");
 
 router.post(
   "/new",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.addTopic
+  checkSchema(sessionSchema.newSessionValidation),
+  sessionController.addSession
 );
 
-router.get(
-  "/all",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.topics
-);
+router.get("/all", sessionController.sessions);
 
 router.get(
   "/session/:sessionId",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.topic
+  checkSchema(sessionSchema.sessionValidation),
+  sessionController.session
 );
 
 router.delete(
   "/session/:sessionId",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.delete
+  checkSchema(sessionSchema.sessionValidation),
+  sessionController.delete
 );
 
 router.put(
   "/session/:sessionId",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.update
+  checkSchema(sessionSchema.newTopicValidation),
+  sessionController.update
 );
 
 module.exports = router;
