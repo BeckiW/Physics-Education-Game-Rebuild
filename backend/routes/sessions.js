@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const topicSchema = require("../schemas/topic");
-const topicController = require("../controllers/topics");
+const sessionSchema = require("../schemas/session");
+const sessionController = require("../controllers/sessions");
 const { checkSchema } = require("express-validator");
 
 router.post(
