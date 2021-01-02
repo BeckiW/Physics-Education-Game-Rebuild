@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const questionSchema = new Schema(
   {
-    topic_id: {
+    topicId: {
       type: String,
       required: true
     },
@@ -12,7 +12,7 @@ const questionSchema = new Schema(
       type: Number,
       required: true
     },
-    text: {
+    questionText: {
       type: String,
       required: true
     },
@@ -20,7 +20,7 @@ const questionSchema = new Schema(
       type: Array,
       required: true
     },
-    correct_answer: {
+    correctAnswer: {
       type: Number,
       required: true
     }
