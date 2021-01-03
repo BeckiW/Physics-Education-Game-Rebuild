@@ -25,7 +25,7 @@ router.delete(
 
 router.put(
   "/session/:sessionId",
-  checkSchema(sessionSchema.newTopicValidation),
+  checkSchema(sessionSchema.sessionValidation),
   sessionController.update
 );
 
