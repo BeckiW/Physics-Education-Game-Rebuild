@@ -9,12 +9,12 @@ router.post(
   checkSchema(userSchema.newUserValidation),
   userController.addUser
 );
+router.get("/all", userController.users);
 router.get(
-  "/all",
+  "/user/:userId",
   checkSchema(userSchema.userValidation),
-  userController.users
+  userController.user
 );
-router.get("/user/:userId", userController.user);
 router.delete("/user/:userId", userController.delete);
 router.put(
   "/user/:userId",

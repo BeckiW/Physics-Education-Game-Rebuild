@@ -1,19 +1,31 @@
-exports.newQuestionValidation = {
-  topicId: {
+exports.newResultValidation = {
+  userId: {
     isLength: {
-      errorMessage: "title should be betweek 1 and 30 letters",
+      errorMessage: "userId should be between 1 and 30 letters",
       options: { min: 1, max: 20 }
     }
   },
-  questionText: {},
-  correctAnswer: {
+  topicId: {
     isLength: {
-      options: { min: 1 }
+      errorMessage: "topicId should be between 1 and 30 letters",
+      options: { min: 1, max: 20 }
     }
   },
-  answers: {
-    isArray: {
+  datetime: {},
+  score: {
+    isNumber: {
       options: { min: 1 }
+    }
+  }
+};
+
+exports.resultValidation = {
+  resultid: {
+    in: ["params", "query"],
+    errorMessage: "ID is wrong",
+    isLength: {
+      errorMessage: "id should be betweek 1 and 20 letters",
+      options: { min: 1, max: 20 }
     }
   }
 };

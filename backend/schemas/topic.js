@@ -17,3 +17,14 @@ exports.newTopicValidation = {
     }
   }
 };
+
+exports.topicValidation = {
+  resultid: {
+    in: ["params", "query"],
+    errorMessage: "ID is wrong",
+    isLength: {
+      errorMessage: "id should be betweek 1 and 20 letters",
+      options: { min: 1, max: 20 }
+    }
+  }
+};

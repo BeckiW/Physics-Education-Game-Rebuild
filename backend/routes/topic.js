@@ -9,27 +9,23 @@ router.post(
   topicController.addTopic
 );
 
-router.get(
-  "/all",
-  checkSchema(topicSchema.newTopicValidation),
-  topicController.topics
-);
+router.get("/all", topicController.topics);
 
 router.get(
   "/topic/:topicId",
-  checkSchema(topicSchema.newTopicValidation),
+  checkSchema(topicSchema.topicValidation),
   topicController.topic
 );
 
 router.delete(
   "/topic/:topicId",
-  checkSchema(topicSchema.newTopicValidation),
+  checkSchema(topicSchema.topicValidation),
   topicController.delete
 );
 
 router.put(
   "/topic/:topicId",
-  checkSchema(topicSchema.newTopicValidation),
+  checkSchema(topicSchema.topicValidation),
   topicController.update
 );
 

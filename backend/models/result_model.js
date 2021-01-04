@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const resultSchema = new Schema({
-  user_id: {
+  userId: {
     type: String,
     required: true
   },
@@ -11,7 +11,7 @@ const resultSchema = new Schema({
     type: Date,
     required: true
   },
-  topic_id: {
+  topicId: {
     type: String,
     required: true
   },

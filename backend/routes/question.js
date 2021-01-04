@@ -11,19 +11,19 @@ router.get("/all", topicController.allQuestions);
 
 router.get(
   "/question/:questionId",
-  checkSchema(topicSchema.getQuestionValidation),
+  checkSchema(topicSchema.questionValidation),
   topicController.question
 );
 
 router.delete(
   "/question/:questionId",
-  checkSchema(topicSchema.deleteQuestionValidation),
+  checkSchema(topicSchema.questionValidation),
   topicController.delete
 );
 
 router.put(
   "/question/:questionId",
-  checkSchema(topicSchema.updateQuestionValidation),
+  checkSchema(topicSchema.questionValidation),
   topicController.update
 );
 
