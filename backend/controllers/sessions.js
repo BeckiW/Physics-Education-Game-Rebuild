@@ -103,7 +103,7 @@ exports.update = async (req, res) => {
   }
 
   try {
-    //question exist check
+    //session exist check
     const existingSession = await Session.find({
       _id: req.params.sessionId
     });

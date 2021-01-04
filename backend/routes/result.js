@@ -1,30 +1,32 @@
 const router = require("express").Router();
-let Result = require("../models/result_model");
+const resultsSchema = require("../schemas/result");
+const resultController = require("../controllers/results");
+const { checkSchema } = require("express-validator");
 
-router.route("/").get((req, res) => {
-  Result.find()
-    .then(results => res.json(results))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+router.post(
+  "/new",
+  checkSchema(resultsSchema.newResultValidation),
+  resultController.addResult
+);
 
-router.route("/results").post((req, res) => {
-  checkAuth(req, res, user => {
-    const result = new Result({
-      user_id: user._id,
-      datetime: new Date(),
-      topic_id: req.body.topic_id,
-      score: req.body.score
-    });
+router.get("/all", resultController.results);
 
-    result
-      .save()
-      .then(() => {
-        res.status(201).send(JSON.stringify({ success: true }));
-      })
-      .catch(err => {
-        res.status(400).send(err);
-      });
-  });
-});
+router.get(
+  "/session/:resultId",
+  checkSchema(resultsSchema.resultValidation),
+  resultController.result
+);
+
+router.delete(
+  "/session/:resultId",
+  checkSchema(resultsSchema.resultValidation),
+  resultController.delete
+);
+
+router.put(
+  "/session/:resultId",
+  checkSchema(resultsSchema.resultValidation),
+  resultController.update
+);
 
 module.exports = router;
