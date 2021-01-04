@@ -55,7 +55,7 @@ exports.result = async (req, res) => {
   }
 
   if (!req.params && !req.params.sessionId) {
-    res.status(400).json({ errors: "no sessionId provided" });
+    res.status(400).json({ errors: "no resultId provided" });
   }
 
   let resultId = req.params.resultId;
