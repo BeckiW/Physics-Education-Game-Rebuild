@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
+const session = require("express-session");
 
 require("dotenv").config();
 
@@ -11,6 +12,13 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: "secretKey",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
